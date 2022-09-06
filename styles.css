@@ -1,0 +1,10 @@
+ul {
+   margin:15px;
+  
+
+}
+
+.left, .right {
+    display: inline-block;
+}
+
