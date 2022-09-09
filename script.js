@@ -81,9 +81,16 @@ return root;
 }
 
 
-
 function genUl(content){
-    let el =  document.createElement("ul");
+  let el =  document.createElement("ul");
+  el.classList.add(content.name);
+  el.id = content.id;
+  el.innerHTML = content.name;
+  return el;
+}
+
+function genLi(content){
+    let el =  document.createElement("li");
     el.classList.add(content.name);
     el.id = content.id;
     el.innerHTML = content.name;
@@ -92,12 +99,13 @@ function genUl(content){
 
 function rec(data, id="container"){
     if(data.children){
-        document.getElementById(id).appendChild(genUl(data));
+      
+        document.getElementById(id).appendChild(genLi(data));
         data.children.forEach(child => {
             rec(child, child.parentId);
         });
     }else {
-        document.getElementById(id).appendChild(genUl(data));
+        document.getElementById(id).appendChild(genLi(data));
     }
 
 }
