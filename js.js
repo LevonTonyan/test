@@ -84,6 +84,12 @@ class Person {
   }
   
   class Staff extends Person {
+    constructor(programm, pay){
+        super();
+        this.__programm = programm;
+        this.__pay = pay;
+
+    }
     __programm;
     __pay;
     
