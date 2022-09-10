@@ -1,6 +1,6 @@
 let button = document.getElementById("btn");
 let input = document.getElementById("input");
-button.addEventListener('click', ()=> {findAndRemove(input.value)});
+button.addEventListener('click', ()=> {findAndRemove(input.value, makeRoot(arr))});
 
 
 
@@ -58,10 +58,26 @@ let arr = [{
     parentId: 8
   }];
 
+//SEARCHING FUNCTION /////////////////
+  function findAndRemove(text,data) {
+    document.getElementById("container").innerHTML = "";
 
-  function findAndRemove(text,arr) {
+
+
+    function rec1(li,id = "container"){
+
+      if (!li.name.includes(text) && li.children){
+        document.getElementById(id).appendChild(genLi(li));
+
+        li.children.forEach(ch => {
+          rec1(ch, ch.parentId);
+        });
+      } 
+      
+      
     
-
+  }
+rec1(data);
 }
 
 
@@ -81,11 +97,8 @@ return root;
 }
 
 
-function genUl(content){
+function genUl(){
   let el =  document.createElement("ul");
-  el.classList.add(content.name);
-  el.id = content.id;
-  el.innerHTML = content.name;
   return el;
 }
 
@@ -109,5 +122,8 @@ function rec(data, id="container"){
     }
 
 }
-rec(makeRoot(arr));
-console.log(makeRoot(arr))
+function render(data){
+  return rec(makeRoot(data));
+}
+render(arr);
+

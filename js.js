@@ -74,9 +74,10 @@ class Person {
     }
     passExam(program, grade){
         this.stat[program] = grade;
+        this.programs.push(program)
        if(Object.keys(this.stat).length >= 3 && !Object.values(gago.stat).filter(dis => dis < 50).length > 0) {
            this.year ++;
-           console.log("increasing")
+           
         }
     }
     
@@ -102,14 +103,14 @@ class Person {
   }
   
   
-  let gago = new Student(2020, 140000, "Math","Phisycs");
+  let gago = new Student(2020, 140000);
   gago.firstName = "Gago";
   gago.lastName = "Bznuni";
   gago.gender = "male";
   gago.age = "85";
   gago.passExam("Math", 55)
   gago.passExam("Phisics", 55)
-  gago.passExam("Algebra", 48)
+  gago.passExam("Algebra", 55)
 
 
   console.log(gago.toString())
