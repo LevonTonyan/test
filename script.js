@@ -63,67 +63,52 @@ let arr = [{
     document.getElementById("container").innerHTML = "";
 
 
-
-    function rec1(li,id = "container"){
-
-      if (!li.name.includes(text) && li.children){
-        document.getElementById(id).appendChild(genLi(li));
-
-        li.children.forEach(ch => {
-          rec1(ch, ch.parentId);
-        });
-      } 
-      
-      
-    
-  }
-rec1(data);
 }
 
 
 
-function makeRoot(arr){
-let root;
-arr.forEach((el) => {
-    if(el.parentId === null){
-        root = el;
-        return;
-    }
-    const parentEl = arr[el.parentId];
-    parentEl.children = [...(parentEl.children || []), el];
-
-});
-return root;
+function makeRoot(items){
+  const arm = (items,id = null)=>
+items.filter(item => item.parentId === id)
+.map(i => ({...i,children:arm(arr,i.id)}));
+return arm(items);
 }
+
+
+
 
 
 function genUl(){
   let el =  document.createElement("ul");
+  el.classList.add("nested")
   return el;
+}
+function genArrow(cont){
+  let arrow = document.createElement("span");
+  arrow.className = "caret";
+  arrow.innerHTML = cont.name;
+  return arrow;
 }
 
 function genLi(content){
     let el =  document.createElement("li");
     el.classList.add(content.name);
     el.id = content.id;
-    el.innerHTML = content.name;
+    el.innerHTML = `<span class='caret'>${content.name}</span>`;
     return el;
 }
 
-function rec(data, id="container"){
-    if(data.children){
-      
-        document.getElementById(id).appendChild(genLi(data));
-        data.children.forEach(child => {
-            rec(child, child.parentId);
-        });
-    }else {
-        document.getElementById(id).appendChild(genLi(data));
-    }
+function render(data, id="container"){
+    data.forEach(ch => {
+      if(ch.children.length){
+        document.getElementById(id).appendChild(genLi(ch));
+     
+        render(ch.children, ch.id);
+      }else {
+        document.getElementById(id).appendChild(genLi(ch));
+      }
+    });
+}
 
-}
-function render(data){
-  return rec(makeRoot(data));
-}
-render(arr);
+render(makeRoot(arr));
 
