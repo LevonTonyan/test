@@ -62,27 +62,7 @@ let arr = [{
   function findAndRemove(text,data) {
     document.getElementById("container").innerHTML = "";
 
-    console.log(data);
-    let newRoot;
 
-    function rec(data){
-      data.forEach(el => {
-        if(el.name.includes(text)){
-          newRoot = el;
-          newRoot.children = [];
-        }else {
-          newRoot = el;
-          newRoot.children = el.children.filter(el => el.name.includes(text)).map(i => ({...i, children:[]}));
-        }
-      });
-    }
-   
-    
-    
-  rec(data);
-
-
-  render(newRoot);
 }
 
 
@@ -100,24 +80,35 @@ return arm(items);
 
 function genUl(){
   let el =  document.createElement("ul");
+  el.classList.add("nested")
   return el;
+}
+function genArrow(cont){
+  let arrow = document.createElement("span");
+  arrow.className = "caret";
+  arrow.innerHTML = cont.name;
+  return arrow;
 }
 
 function genLi(content){
     let el =  document.createElement("li");
     el.classList.add(content.name);
     el.id = content.id;
-    el.innerHTML = content.name;
+    el.innerHTML = `<span class='caret'>${content.name}</span>`;
     return el;
 }
 
 function render(data, id="container"){
-    document.getElementById(id).appendChild(genLi(data));
-    document.getElementById(id).appendChild(genUl());
-    data.children.forEach(ch => {
-      render(ch, ch.parentId);
+    data.forEach(ch => {
+      if(ch.children.length){
+        document.getElementById(id).appendChild(genLi(ch));
+     
+        render(ch.children, ch.id);
+      }else {
+        document.getElementById(id).appendChild(genLi(ch));
+      }
     });
 }
 
-render(makeRoot(arr)[0]);
+render(makeRoot(arr));
 

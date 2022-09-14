@@ -6,10 +6,13 @@ ul {
 
 li {
     margin-left: 20px;
+    list-style:circle;
+    
 }
 
 
 .left, .right {
     display: inline-block;
 }
+
 
